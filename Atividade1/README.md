@@ -74,25 +74,5 @@ Toda entrada de dados ocorre via `Scanner`, permitindo uma experiência simples 
 
 ---
 
-## ▶️ Como Executar
-
-1. Instale o **Kotlin** ou utilize uma IDE como **IntelliJ IDEA**.
-2. Adicione o arquivo `.kt` do projeto ao diretório-fonte.
-3. Execute o método `main()`.
-4. Use o menu exibido no console para navegar pelas opções.
-
----
-
-## 📁 Estrutura Sugerida de Arquivos
-
-```
-src/
- ├── Main.kt
- ├── Pessoa.kt
- └── GerenciadorPessoas.kt
-```
-
----
-
 
 

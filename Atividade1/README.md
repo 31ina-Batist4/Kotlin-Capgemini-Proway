@@ -71,6 +71,8 @@ Antes de cadastrar ou alterar dados, o sistema valida:
 
 ### ✔️ **Interação com o Usuário**
 Toda entrada de dados ocorre via `Scanner`, permitindo uma experiência simples e interativa no console.
+<img width="998" height="736" alt="image" src="https://github.com/user-attachments/assets/4468c4ac-a4a0-4a9d-b0eb-9f2cdcf535c4" />
+
 
 ---
 

@@ -82,4 +82,11 @@ class FinanceViewModel : ViewModel() {
         _sonho.value = sonho
     }
 
+    fun calcularProgresso(sonho: Double, saldo: Double):
+        Float {
+            return (saldo / sonho)
+                .coerceIn(0.0 , 1.0)
+                .toFloat()
+        }
+
 }

@@ -2,6 +2,9 @@ package br.com.treinamento.despesaspessoais.ui.screens.home
 
 import CardAction
 import FinanceViewModel
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,6 +44,15 @@ fun HomeScreen(
     val totalGastos by viewModel.totalGastos.collectAsState()
     val saldo by viewModel.saldoDisponivel.collectAsState()
 
+    val saldoAnimado by animateFloatAsState(
+        targetValue = saldo.toFloat(),
+        animationSpec = tween(
+            durationMillis = 800,
+            easing = FastOutSlowInEasing
+        ),
+        label = "animado"
+    )
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -68,7 +80,7 @@ fun HomeScreen(
                 ) {
                     Text("Saldo Atual", style = MaterialTheme.typography.titleMedium)
                     Text(
-                        text = formatMoeda(saldo),
+                        text = formatMoeda(saldoAnimado.toDouble()),
                         style = MaterialTheme.typography.headlineMedium,
                         color = if(saldo >= 0) Purple40
                                 else Color.Red

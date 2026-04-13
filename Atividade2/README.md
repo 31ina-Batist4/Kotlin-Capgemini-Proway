@@ -115,3 +115,29 @@ Saldo = Total de Ganhos − Total de Gastos
 
 ```kotlin
 val saldo by viewModel.saldoDisponivel.collectAsState()
+
+## 🎞️ Animação de Valores (Saldo)
+
+Para melhorar a experiência do usuário, o app possui **animação suave na atualização de valores financeiros**, como saldo.
+
+### 🔹 Tecnologia utilizada
+- `animateFloatAsState` (Jetpack Compose)
+
+### 🔹 Benefícios
+- Transição visual suave ao adicionar ganhos ou gastos
+- UX semelhante a aplicativos bancários
+- Melhor percepção de mudança de valores
+
+### 🔹 Exemplo de implementação
+
+```kotlin
+val saldo by viewModel.saldoDisponivel.collectAsState()
+
+val saldoAnimado by animateFloatAsState(
+    targetValue = saldo.toFloat(),
+    animationSpec = tween(
+        durationMillis = 600,
+        easing = FastOutSlowInEasing
+    ),
+    label = "saldoAnimado"
+)

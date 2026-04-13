@@ -1,5 +1,6 @@
 package br.com.treinamento.despesaspessoais.ui.components
 
+import FinanceViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.treinamento.despesaspessoais.model.Sonho
 import br.com.treinamento.despesaspessoais.ui.theme.Purple40
 import br.com.treinamento.despesaspessoais.utils.formatMoeda
@@ -27,6 +29,10 @@ fun CardSonho(
     onIncluirOuEditar: () -> Unit
 ) {
     val valorFaltante = (sonho.valor - saldoDisponivel).coerceAtLeast(0.0)
+    val viewModel: FinanceViewModel = viewModel()
+    val progress = viewModel.calcularProgresso(sonho.valor, saldoDisponivel)
+    val percentual = (progress * 100).toInt()
+    val faltante = (sonho.valor - saldoDisponivel).coerceAtLeast(0.0)
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -68,6 +74,8 @@ fun CardSonho(
                 else
                     MaterialTheme.colorScheme.error
             )
+
+            Grafico(progress = progress)
 
             Spacer(modifier = Modifier.height(8.dp))
 

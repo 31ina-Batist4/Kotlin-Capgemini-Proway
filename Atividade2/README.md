@@ -141,3 +141,27 @@ val saldoAnimado by animateFloatAsState(
     ),
     label = "saldoAnimado"
 )
+
+## 📊 Gráfico de Progresso do Sonho
+
+Para melhorar a visualização do objetivo financeiro, o **Card de Sonho na Home** possui um **gráfico de progresso**, indicando quanto do sonho já pode ser alcançado com o saldo disponível.
+
+### 🔹 Tipo de gráfico
+- **Barra de progresso horizontal**
+- Implementada com **Canvas (Jetpack Compose puro)**
+
+Esse tipo de gráfico foi escolhido por representar de forma clara:
+> “Quanto do valor do sonho já está coberto pelo saldo atual?”
+
+---
+
+### 🔹 Como o progresso é calculado
+
+```kotlin
+fun calcularProgressoSonho(valorSonho: Double, saldo: Double): Float {
+    return (saldo / valorSonho)
+        .coerceIn(0.0, 1.0)
+        .toFloat()
+
+}
+``

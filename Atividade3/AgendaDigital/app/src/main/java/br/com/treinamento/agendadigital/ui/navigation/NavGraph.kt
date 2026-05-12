@@ -8,14 +8,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import br.com.treinamento.agendadigital.ui.components.Contatos
+import br.com.treinamento.agendadigital.ui.screens.about.AboutScreen
 import br.com.treinamento.agendadigital.ui.screens.home.HomeScreen
 
 object Routes {
     const val HOME = "home"
     const val FORM = "form_contato?id={id}"
     const val DETALHE = "detalhe_contato?id="
+    const val ABOUT = "about"
+    const val CONTATOS = "contatos"
 
     fun form(id: Int) = "form_contato?id=${id}"
+}
+
+sealed class Screen(val route: String, val title: String) {
+    object Home : Screen("home", "Home")
+    object Form: Screen("form_contato?id={id}", "Novo Contato")
+    object About: Screen("about", "Sobre")
+    object Contatos: Screen("contatos", "Contatos do dispositivo")
 }
 
 @Composable
@@ -29,6 +40,16 @@ fun NavGraph(navController: NavHostController) {
             HomeScreen(
                 navController
             )
+        }
+
+        composable(Routes.ABOUT) {
+            AboutScreen(
+                navController
+            )
+        }
+
+        composable(Routes.CONTATOS) {
+            Contatos()
         }
 
         composable(

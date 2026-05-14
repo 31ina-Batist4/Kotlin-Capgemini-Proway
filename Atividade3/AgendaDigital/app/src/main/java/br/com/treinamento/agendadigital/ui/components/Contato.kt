@@ -20,11 +20,22 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import android.content.pm.PackageManager
 import android.Manifest
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Divider
 
-fun obterContatos(context: Context): List<String> {
+data class Contato(
+    val nome: String,
+    val telefone: String
+)
+
+fun obterContatos(context: Context): List<Contato> {
 
 
-    val lista = mutableListOf<String>()
+    val lista = mutableListOf<Contato>()
 
     try {
         val cursor = context.contentResolver.query(
@@ -39,16 +50,21 @@ fun obterContatos(context: Context): List<String> {
             val indiceNome = it.getColumnIndex(
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
             )
-/*
-            val indiceId = it.getColumnIndex(
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+
+            val indiceTelefone = it.getColumnIndex(
+                ContactsContract.CommonDataKinds.Phone.NUMBER
             )
-*/
+
             while(it.moveToNext()) {
-              //  val id = it.getLong(indiceId)
                 if(indiceNome != -1) {
                     val nome = it.getString(indiceNome) ?: ""
-                    lista.add(nome)
+                    val telefone = it.getString(indiceTelefone) ?: ""
+                    lista.add(
+                      Contato(
+                          nome = nome,
+                          telefone = telefone
+                      )
+                    )
                 }
             }
         }
@@ -60,46 +76,4 @@ fun obterContatos(context: Context): List<String> {
 
 }
 
-@Composable
-fun Contatos() {
 
-    val context = LocalContext.current
-
-    var listaContatos by remember { mutableStateOf(listOf<String>()) }
-    var jaSolicitou by remember { mutableStateOf(false) }
-    val permissao = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {
-
-        retorno ->
-           if(retorno) {
-                 listaContatos = obterContatos(context)
-        }
-    }
-
-
-    val hasPermission = ContextCompat.checkSelfPermission(
-        context,
-        Manifest.permission.READ_CONTACTS
-    )== PackageManager.PERMISSION_GRANTED
-
-    LaunchedEffect(Unit) {
-        if (!jaSolicitou) {
-            jaSolicitou = true
-
-            if (hasPermission) {
-                listaContatos = obterContatos(context)
-            } else {
-                permissao.launch(Manifest.permission.READ_CONTACTS)
-            }
-        }
-    }
-
-    LazyColumn {
-        items(listaContatos) { nome ->
-            Text(
-                text = nome,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-    }
-
-}

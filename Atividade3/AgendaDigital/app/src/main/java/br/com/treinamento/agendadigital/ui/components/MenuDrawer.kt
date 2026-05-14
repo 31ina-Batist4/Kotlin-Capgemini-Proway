@@ -25,28 +25,24 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import br.com.treinamento.agendadigital.ui.navigation.Screen
 import kotlinx.coroutines.launch
 
-data class MenuItem(
-    val title: String,
-    val onClick: () -> Unit
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MenuDrawer(
     navController: NavController,
     title: String,
-    menuItems: List<MenuItem>,
     content: @Composable (PaddingValues) -> Unit
 ) {
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
     val menuRotas = listOf(
         Screen.Home,
         Screen.Form,
+        Screen.Contatos,
         Screen.About,
-        Screen.Contatos
     )
 
     ModalNavigationDrawer(

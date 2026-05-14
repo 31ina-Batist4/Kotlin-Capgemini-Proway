@@ -135,7 +135,11 @@ class ContatoViewModel(
     }
 
     fun onChangeTelefone(valor: String) {
-        _uiState.value = _uiState.value?.copy(telefone = valor)
+      // val digits = valor.filter { it.isDigit() }
+      //  if(digits.length <= 11) {
+            _uiState.value = _uiState.value?.copy(telefone = valor)
+     //   }
+
     }
 
     fun onChangeNascimento(valor: String) {

@@ -1,7 +1,6 @@
 package br.com.treinamento.agendadigital.ui.screens.home
 
 import android.app.Application
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,14 +13,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
-
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
-
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.lazy.items
@@ -40,9 +35,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import br.com.treinamento.agendadigital.ui.components.CardContato
-
 import br.com.treinamento.agendadigital.ui.components.MenuDrawer
-import br.com.treinamento.agendadigital.ui.components.MenuItem
 import br.com.treinamento.agendadigital.ui.navigation.Routes
 import br.com.treinamento.agendadigital.viewmodel.ContatoViewModel
 
@@ -59,23 +52,13 @@ fun HomeScreen(
             .getInstance(context.applicationContext as Application)
     )
 
-    val menu = listOf(
-        MenuItem("Menu") {},
-        MenuItem("Home") {},
-        MenuItem("Contatos") {},
-        MenuItem("Novo Contato") {},
-        MenuItem("About") {},
-      //  MenuItem("Help") {},
-    )
-
     val contatos by viewModel.contatos.observeAsState(emptyList())
 
     val busca by viewModel.textoBusca.observeAsState("")
 
     MenuDrawer(
         navController,
-        "Home",
-         menu
+        "Home"
     ) { padding ->
         Box(
             modifier = Modifier
@@ -127,10 +110,14 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     LazyColumn (
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(contatos) { contato ->
-                            CardContato(contato, { navController.navigate("${Routes.DETALHE}${contato.id}")})
+                            CardContato(
+                                contato,
+                                navController,
+                               viewModel
+                            )
                         }
                     }
 

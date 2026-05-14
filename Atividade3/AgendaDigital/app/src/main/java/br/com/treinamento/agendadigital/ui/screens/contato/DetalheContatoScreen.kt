@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +43,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import br.com.treinamento.agendadigital.ui.navigation.Routes
+import br.com.treinamento.agendadigital.ui.theme.AppIcons
 import br.com.treinamento.agendadigital.viewmodel.ContatoUiState
 import br.com.treinamento.agendadigital.viewmodel.ContatoViewModel
 
@@ -69,7 +71,10 @@ fun DetalheContatoScreen(
                      contatoId
                  }
              ) {
-                 Icon(Icons.Default.Edit, contentDescription = "Editar")
+                 Icon(
+                     painter = painterResource( AppIcons.Editar.icon),
+                     AppIcons.Editar.contentDescription,
+                     modifier = Modifier.size(28.dp))
              }
          }
 
@@ -106,15 +111,6 @@ fun DetalheContatoScreen(
                      fontWeight = FontWeight.Bold,
                      modifier = Modifier.weight(1f)
                  )
-                 Icon(
-                     imageVector = Icons.Default.Delete,
-                     contentDescription = "Excluir",
-                     tint = Color.Red,
-                     modifier = Modifier.size(28.dp)
-                         .clickable {
-                            viewModel.deleteContato(c)
-                         }
-                 )
              }
 
              Divider()
@@ -132,22 +128,6 @@ fun DetalheContatoScreen(
                      text = c.telefone,
                      modifier = Modifier.weight(1f)
                  )
-
-                 val context = LocalContext.current
-
-                 Icon(
-                     imageVector = Icons.Default.Call,
-                     contentDescription = "Ligar",
-                     tint = Color.Green,
-                     modifier = Modifier
-                         .size(28.dp)
-                         .clickable {
-                             val intent = Intent(Intent.ACTION_DIAL).apply {
-                                 data = Uri.parse("tel:${c.telefone}")
-                             }
-                             context.startActivity(intent)
-                         }
-                 )
              }
 
              Row(
@@ -163,44 +143,34 @@ fun DetalheContatoScreen(
                      text = c.email,
                      modifier = Modifier.weight(1f)
                  )
-
-                 val context = LocalContext.current
-
-                 Icon(
-                     imageVector = Icons.AutoMirrored.Filled.Send,
-                     contentDescription = "Email",
-                     tint = Color.Blue,
-                     modifier = Modifier
-                         .size(28.dp)
-                         .clickable {
-
-                             val intent = Intent(Intent.ACTION_SENDTO).apply {
-                                 data = Uri.parse("mailto:${c.email}")
-                             }
-
-                             context.startActivity(intent)
-                         }
-                 )
              }
 
-             Divider()
+
 
              Text(
                  text = "Nascimento: ${c.nascimento}",
                  style = MaterialTheme.typography.bodyLarge
              )
 
-             Divider()
-
              Text(
                  text = "Endereço",
+                 style = MaterialTheme.typography.titleLarge,
+                 fontWeight = FontWeight.Bold
+             )
+             Divider()
+             Text(
+                 text = "Logradourdo: ",
                  style = MaterialTheme.typography.titleMedium,
                  fontWeight = FontWeight.Bold
              )
-
              Text("${c.endereco.logradouro}, ${c.endereco.numero ?: "S/N"}")
+             Text(
+                 text = "Bairro: ",
+                 style = MaterialTheme.typography.titleMedium,
+                 fontWeight = FontWeight.Bold
+             )
              Text(c.endereco.bairro)
-             Text("${c.endereco.cidade} - ${c.endereco.estado}")
+             Text("Cidade: ${c.endereco.cidade} Estado ${c.endereco.estado}")
              Text("CEP: ${c.endereco.cep}")
          }
      }

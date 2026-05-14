@@ -2,14 +2,16 @@ package br.com.treinamento.agendadigital.ui.navigation
 
 import DetalheContatoScreen
 import FormContatoScreen
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import br.com.treinamento.agendadigital.ui.components.Contatos
 import br.com.treinamento.agendadigital.ui.screens.about.AboutScreen
+import br.com.treinamento.agendadigital.ui.screens.contato.ContatosDispositivosScreen
 import br.com.treinamento.agendadigital.ui.screens.home.HomeScreen
 
 object Routes {
@@ -29,6 +31,7 @@ sealed class Screen(val route: String, val title: String) {
     object Contatos: Screen("contatos", "Contatos do dispositivo")
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(navController: NavHostController) {
 
@@ -49,7 +52,7 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(Routes.CONTATOS) {
-            Contatos()
+            ContatosDispositivosScreen()
         }
 
         composable(
@@ -62,6 +65,7 @@ fun NavGraph(navController: NavHostController) {
             )
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("id") ?: -1
+
             FormContatoScreen(
                 navController = navController,
                 contatoId = id
